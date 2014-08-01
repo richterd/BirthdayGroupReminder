@@ -1,0 +1,20 @@
+dependencies: \
+  /Users/imac/Documents/XcodeProjects/BirthdayGroupReminder/Pods/Pods-RHAddressBook-prefix.pch \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/Darwin-3133I65RZ1TXG.pcm \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/MachO-3AY6H4PXFOQ85.pcm \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/ObjectiveC-CJA4U3ZCIO5H.pcm \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/os-3133I65RZ1TXG.pcm \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/Dispatch-4FMSCUQTDIQI.pcm \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/CoreFoundation-1V0BCRUTQ0HVY.pcm \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/Security-13JIW4C4ZDBHK.pcm \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/CFNetwork-Z8BMBGBJ8X3V.pcm \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/Foundation-210BIMCM43Z2F.pcm \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/CoreGraphics-Z8BMBGBJ8X3V.pcm \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/OpenGLES-1DU7AD8IMP4LW.pcm \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/CoreVideo-1P4LYRQ8APF3A.pcm \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/CoreImage-Z8BMBGBJ8X3V.pcm \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/CoreText-Z8BMBGBJ8X3V.pcm \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/QuartzCore-MS96M63TOSBI.pcm \
+  /Users/imac/Library/Developer/Xcode/DerivedData/ModuleCache/1UFI1PANF02S5/UIKit-16AYEBDX2G7RS.pcm \
+  /Users/imac/Documents/XcodeProjects/BirthdayGroupReminder/Pods/Pods-environment.h \
+  /Users/imac/Documents/XcodeProjects/BirthdayGroupReminder/Pods/RHAddressBook/RHAddressBook/RHARCSupport.h
