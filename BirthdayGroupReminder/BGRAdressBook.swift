@@ -10,33 +10,33 @@ import UIKit
 
 class BGRAdressBook: NSObject {
     
-    var delegate = UIApplication.sharedApplication().delegate as AppDelegate
+    var delegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     
     func usersSortedByBirthday(selectedGroups : [ABRecordID]) -> [RHPerson]{
-        var addressBook = delegate.addressBook
+        let addressBook = delegate.addressBook
         var users : [RHPerson] = []
         for groupID : ABRecordID in selectedGroups{
-            var group : RHGroup = addressBook.groupForABRecordID(groupID)
-            var friends = group.members
+            let group : RHGroup = addressBook.groupForABRecordID(groupID)
+            let friends = group.members
             for friend : AnyObject in friends{
-                var user = friend as RHPerson
-                if (user.birthday){
-                    users.append(friend as RHPerson)
+                let user = friend as! RHPerson
+                if ((user.birthday) != nil){
+                    users.append(friend as! RHPerson)
                 }
             }
         }
         //Sort by birthday
-        users.sort(){
-            var leftDate : NSDate = $0.birthday
-            var rightDate : NSDate = $1.birthday
-            var left = NSCalendar.currentCalendar().components(.CalendarUnitDay | .CalendarUnitMonth | .CalendarUnitYear, fromDate: leftDate)
-            var right = NSCalendar.currentCalendar().components(.CalendarUnitDay | .CalendarUnitMonth | .CalendarUnitYear, fromDate: rightDate)
-            var current = NSCalendar.currentCalendar().components(.CalendarUnitDay | .CalendarUnitMonth | .CalendarUnitYear, fromDate: NSDate.date())
+        users.sortInPlace(){
+            let leftDate : NSDate = $0.birthday
+            let rightDate : NSDate = $1.birthday
+            let left = NSCalendar.currentCalendar().components([.Day, .Month, .Year], fromDate: leftDate)
+            let right = NSCalendar.currentCalendar().components([.Day, .Month, .Year], fromDate: rightDate)
+            let current = NSCalendar.currentCalendar().components([.Day, .Month, .Year], fromDate: NSDate())
             
-            var lday = left.day
+            let lday = left.day
             var lmonth = left.month
-            var rday = right.day
+            let rday = right.day
             var rmonth = right.month
             //Shift dates depending on current date
             if(lmonth < current.month){

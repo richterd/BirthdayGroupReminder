@@ -20,8 +20,8 @@ class BGRNotificationCenter: NSObject {
         UIApplication.sharedApplication().cancelAllLocalNotifications();
 
         //get all users
-        var myAddressBook = BGRAdressBook()
-        var users : [RHPerson] = myAddressBook.usersSortedByBirthday(selectedGroups)
+        let myAddressBook = BGRAdressBook()
+        let users : [RHPerson] = myAddressBook.usersSortedByBirthday(selectedGroups)
         
         for user in users{
             //Create the new once
@@ -35,13 +35,13 @@ class BGRNotificationCenter: NSObject {
     }
     
     func addNotificationForUser(user : RHPerson, withWarning warning : Bool){
-        var birthday = NSCalendar.currentCalendar().components(.CalendarUnitDay | .CalendarUnitMonth | .CalendarUnitYear, fromDate: user.birthday)
-        var thisBirthday = NSCalendar.currentCalendar().components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond | .CalendarUnitDay | .CalendarUnitMonth | .CalendarUnitYear, fromDate: NSDate.date())
+        let birthday = NSCalendar.currentCalendar().components([.Day, .Month, .Year], fromDate: user.birthday)
+        let thisBirthday = NSCalendar.currentCalendar().components([.Hour, .Minute, .Second, .Day, .Month, .Year], fromDate: NSDate())
         
         //thisBirthday.minute = (thisBirthday.minute + 1) % 60
         //Skipp Todays Birthdays
         if(birthday.day == thisBirthday.day && birthday.month == thisBirthday.month){
-            println("Skipped birthday because it was today")
+            print("Skipped birthday because it was today")
             return
         }
         
@@ -51,7 +51,7 @@ class BGRNotificationCenter: NSObject {
         } else if(birthday.month == thisBirthday.month){
             if(birthday.day < thisBirthday.day){
                 thisBirthday.year = thisBirthday.year + 1
-                println("Corrected day")
+                print("Corrected day")
             }
         }
         thisBirthday.hour = 9
@@ -61,24 +61,24 @@ class BGRNotificationCenter: NSObject {
         thisBirthday.day = birthday.day
         
         
-        var date = NSCalendar.currentCalendar().dateFromComponents(thisBirthday)
+        let date = NSCalendar.currentCalendar().dateFromComponents(thisBirthday)
         var text = ""
         if(warning){
             //change date to one day earlier
-            var comp = NSDateComponents()
+            let comp = NSDateComponents()
             comp.day = -1
-            var yesterdayDate = NSCalendar.currentCalendar().dateByAddingComponents(comp, toDate: NSDate.date(), options: nil)
-            var yesterday = NSCalendar.currentCalendar().components(.CalendarUnitDay | .CalendarUnitMonth, fromDate: yesterdayDate)
+            let yesterdayDate = NSCalendar.currentCalendar().dateByAddingComponents(comp, toDate: NSDate(), options: [])
+            let yesterday = NSCalendar.currentCalendar().components([.Day, .Month], fromDate: yesterdayDate!)
             thisBirthday.day = yesterday.day
             thisBirthday.month = yesterday.month
             text = "Bitte App starten um Geburstage zu aktualisieren"
-            println("Added warning")
+            print("Added warning")
         } else{
             text = user.name + " hat heute Geburstag"
-            println("Added birthday notification for " + user.name)
+            print("Added birthday notification for " + user.name)
         }
         //Setup Notification
-        var localNotification = UILocalNotification()
+        let localNotification = UILocalNotification()
         localNotification.fireDate = date
         localNotification.timeZone = NSTimeZone.defaultTimeZone()
         localNotification.alertBody = text

@@ -13,10 +13,10 @@ class BGRStorage: NSObject {
         var selectedGroups : [ABRecordID] = []
         selectedGroups.removeAll(keepCapacity: true)
         let stored : AnyObject? = NSUserDefaults.standardUserDefaults().objectForKey("selectedGroups")
-        if stored{
-            let theArray = stored as NSArray
+        if (stored != nil){
+            let theArray = stored as! NSArray
             for anObject : AnyObject in theArray{
-                let id : NSNumber = anObject as NSNumber
+                let id : NSNumber = anObject as! NSNumber
                 selectedGroups.append(id.intValue as ABRecordID)
             }
         }
@@ -26,11 +26,11 @@ class BGRStorage: NSObject {
     func saveToFile(selectedGroups : [ABRecordID]){
         var preStoreGroups : [NSNumber] = []
         for groupID in selectedGroups{
-            var value : NSNumber = NSNumber.numberWithInt(groupID)
+            let value : NSNumber = NSNumber(int: groupID)
             preStoreGroups.append(value)
         }
         NSUserDefaults.standardUserDefaults().removeObjectForKey("selectedGroups")
-        NSUserDefaults.standardUserDefaults().setObject(preStoreGroups.bridgeToObjectiveC(), forKey: "selectedGroups")
+        NSUserDefaults.standardUserDefaults().setObject(preStoreGroups, forKey: "selectedGroups")
         NSUserDefaults.standardUserDefaults().synchronize()
     }
 }

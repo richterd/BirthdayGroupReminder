@@ -10,13 +10,13 @@ import UIKit
 
 class ContactTableViewCell: UITableViewCell {
 
-    @IBOutlet var pic : UIImageView!
-    @IBOutlet var name : UILabel!
-    @IBOutlet var birthday : UILabel!
+    @IBOutlet var pic : UIImageView?
+    @IBOutlet var name : UILabel?
+    @IBOutlet var birthday : UILabel?
     
-    init(style: UITableViewCellStyle, reuseIdentifier: String) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        // Initialization code
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 
     override func awakeFromNib() {

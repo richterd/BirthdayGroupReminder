@@ -10,28 +10,28 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet var tableView : UITableView!
+    @IBOutlet var tableView : UITableView?
     
-    var appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+    var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     var groups : [RHGroup] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        var addressBook : RHAddressBook = self.appDelegate.addressBook
+        let addressBook : RHAddressBook = self.appDelegate.addressBook
         addressBook.requestAuthorizationWithCompletion({
             (granted: Bool, error: NSError!) -> () in
             if granted {
                 self.appDelegate.addressBook = addressBook
-                var addressBookGroups = addressBook.groups
+                let addressBookGroups = addressBook.groups
                 for object : AnyObject in addressBookGroups{
-                    let addressBookGroup = object as RHGroup
+                    let addressBookGroup = object as! RHGroup
                     self.groups.append(addressBookGroup)
                 }
             }
             dispatch_async(dispatch_get_main_queue(), {
                 //Reload tableView on the main thread
-                self.tableView.reloadData()
+                self.tableView!.reloadData()
             })
         })
     }
@@ -41,16 +41,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Dispose of any resources that can be recreated.
     }
     
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.groups.count
     }
     
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        var cell = tableView.dequeueReusableCellWithIdentifier("groupCell") as GroupTableViewCell
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("groupCell") as! GroupTableViewCell
         
-        cell.isSelected = contains(appDelegate.selectedGroups, groups[indexPath.row].recordID)
+        //cell.isSelected = contains(appDelegate.selectedGroups, groups[indexPath.row].recordID)
+        cell.isSelectedCell = appDelegate.selectedGroups.contains(groups[indexPath.row].recordID)
         
-        cell.groupName.text = groups[indexPath.row].name
+        cell.groupName!.text = groups[indexPath.row].name
         cell.recordID = groups[indexPath.row].recordID
         let count = groups[indexPath.row].count
         var countLabelText = String(count)
@@ -59,20 +60,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else{
             countLabelText += " people"
         }
-        cell.countLabel.text = countLabelText
+        cell.countLabel!.text = countLabelText
         return cell
     }
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
-        var cell : GroupTableViewCell = self.tableView.cellForRowAtIndexPath(indexPath) as GroupTableViewCell
-        if cell.isSelected{
-            cell.isSelected = false
-            if contains(appDelegate.selectedGroups, cell.recordID){
-                appDelegate.selectedGroups.removeAtIndex(find(appDelegate.selectedGroups, cell.recordID)!)
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell : GroupTableViewCell = self.tableView!.cellForRowAtIndexPath(indexPath) as! GroupTableViewCell
+        if cell.isSelectedCell{
+            cell.isSelectedCell = false
+            if appDelegate.selectedGroups.contains(cell.recordID){
+                appDelegate.selectedGroups.removeAtIndex(appDelegate.selectedGroups.indexOf(cell.recordID)!)
             }
         }else{
-            cell.isSelected = true
-            if !contains(appDelegate.selectedGroups, cell.recordID){
+            cell.isSelectedCell = true
+            if !appDelegate.selectedGroups.contains(cell.recordID){
                 appDelegate.selectedGroups.append(cell.recordID)
             }
         }

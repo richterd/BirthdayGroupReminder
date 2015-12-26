@@ -18,18 +18,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //The address book, nil if no access granted
     var addressBook : RHAddressBook = RHAddressBook()
     var update : Int = 0
-
-
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
+    
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         /*application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Sound | UIUserNotificationType.Alert |
-            UIUserNotificationType.Badge, categories: nil
-            ))*/
+        UIUserNotificationType.Badge, categories: nil
+        ))*/
         
         selectedGroups = storage.loadFromFile()
         return true
     }
-    
+
     
     func application(application: UIApplication, didReceiveLocalNotification localNotification: UILocalNotification){
         

@@ -10,24 +10,24 @@ import UIKit
 
 class GroupTableViewCell: UITableViewCell {
     
-    @IBOutlet var groupName : UILabel!
-    @IBOutlet var countLabel: UILabel!
+    @IBOutlet var groupName : UILabel?
+    @IBOutlet var countLabel: UILabel?
     
     var recordID : ABRecordID = -1
     
-    var isSelected : Bool = false{
+    var isSelectedCell : Bool = false{
         didSet{
-            if isSelected{
+            if isSelectedCell{
                 self.accessoryType = UITableViewCellAccessoryType.Checkmark
             } else{
                 self.accessoryType = UITableViewCellAccessoryType.None
             }
         }
     }
-
-    init(style: UITableViewCellStyle, reuseIdentifier: String) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        // Initialization code
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
+
     
 }
