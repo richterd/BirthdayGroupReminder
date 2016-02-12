@@ -38,12 +38,12 @@ class BGRNotificationCenter: NSObject {
         let birthday = NSCalendar.currentCalendar().components([.Day, .Month, .Year], fromDate: user.birthday)
         let thisBirthday = NSCalendar.currentCalendar().components([.Hour, .Minute, .Second, .Day, .Month, .Year], fromDate: NSDate())
         
-        //thisBirthday.minute = (thisBirthday.minute + 1) % 60
-        //Skipp Todays Birthdays
+        //Pehaps you want to skip todays birthday after closing the app
+        /*
         if(birthday.day == thisBirthday.day && birthday.month == thisBirthday.month){
             print("Skipped birthday because it was today")
             return
-        }
+        }*/
         
         //Correct Year if needed
         if(birthday.month < thisBirthday.month){
