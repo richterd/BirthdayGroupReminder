@@ -20,7 +20,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         self.updateTableView()
         // Do any additional setup after loading the view.
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTableView", name: "selectedGroupsChanged", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.updateTableView), name: "selectedGroupsChanged", object: nil)
     }
 
 

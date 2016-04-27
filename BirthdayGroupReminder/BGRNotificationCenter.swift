@@ -86,6 +86,6 @@ class BGRNotificationCenter: NSObject {
         
         
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-        self.currentNotificationCount++
+        self.currentNotificationCount += 1
     }
 }
