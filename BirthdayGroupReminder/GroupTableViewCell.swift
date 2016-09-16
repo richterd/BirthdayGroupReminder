@@ -18,9 +18,9 @@ class GroupTableViewCell: UITableViewCell {
     var isSelectedCell : Bool = false{
         didSet{
             if isSelectedCell{
-                self.accessoryType = UITableViewCellAccessoryType.Checkmark
+                self.accessoryType = UITableViewCellAccessoryType.checkmark
             } else{
-                self.accessoryType = UITableViewCellAccessoryType.None
+                self.accessoryType = UITableViewCellAccessoryType.none
             }
         }
     }

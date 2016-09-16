@@ -11,26 +11,25 @@ import UIKit
 class BGRStorage: NSObject {
     func loadFromFile() -> [ABRecordID]{
         var selectedGroups : [ABRecordID] = []
-        selectedGroups.removeAll(keepCapacity: true)
-        let stored : AnyObject? = NSUserDefaults.standardUserDefaults().objectForKey("selectedGroups")
+        selectedGroups.removeAll(keepingCapacity: true)
+        let stored : AnyObject? = UserDefaults.standard.object(forKey: "selectedGroups") as AnyObject?
         if (stored != nil){
-            let theArray = stored as! NSArray
-            for anObject : AnyObject in theArray{
-                let id : NSNumber = anObject as! NSNumber
-                selectedGroups.append(id.intValue as ABRecordID)
+            let theArray = stored as! [NSNumber]
+            for id in theArray{
+                selectedGroups.append(id.int32Value as ABRecordID)
             }
         }
         return selectedGroups
     }
     
-    func saveToFile(selectedGroups : [ABRecordID]){
+    func saveToFile(_ selectedGroups : [ABRecordID]){
         var preStoreGroups : [NSNumber] = []
         for groupID in selectedGroups{
-            let value : NSNumber = NSNumber(int: groupID)
+            let value : NSNumber = NSNumber(value: groupID as Int32)
             preStoreGroups.append(value)
         }
-        NSUserDefaults.standardUserDefaults().removeObjectForKey("selectedGroups")
-        NSUserDefaults.standardUserDefaults().setObject(preStoreGroups, forKey: "selectedGroups")
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.removeObject(forKey: "selectedGroups")
+        UserDefaults.standard.set(preStoreGroups, forKey: "selectedGroups")
+        UserDefaults.standard.synchronize()
     }
 }

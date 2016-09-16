@@ -10,47 +10,48 @@ import UIKit
 
 class BGRAdressBook: NSObject {
     
-    var delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    var delegate = UIApplication.shared.delegate as! AppDelegate
     
     
-    func usersSortedByBirthday(selectedGroups : [ABRecordID]) -> [RHPerson]{
+    func usersSortedByBirthday(_ selectedGroups : [ABRecordID]) -> [RHPerson]{
         let addressBook = delegate.addressBook
         var users : [RHPerson] = []
         for groupID : ABRecordID in selectedGroups{
-            let group : RHGroup = addressBook.groupForABRecordID(groupID)
-            let friends = group.members
-            for friend : AnyObject in friends{
-                let user = friend as! RHPerson
+            let group : RHGroup = addressBook.group(forABRecordID: groupID)
+            let friends = group.members as! [RHPerson]
+            for user in friends{
                 if ((user.birthday) != nil){
-                    users.append(friend as! RHPerson)
+                    users.append(user)
                 }
             }
         }
         //Sort by birthday
-        users.sortInPlace(){
-            let leftDate : NSDate = $0.birthday
-            let rightDate : NSDate = $1.birthday
-            let left = NSCalendar.currentCalendar().components([.Day, .Month, .Year], fromDate: leftDate)
-            let right = NSCalendar.currentCalendar().components([.Day, .Month, .Year], fromDate: rightDate)
-            let current = NSCalendar.currentCalendar().components([.Day, .Month, .Year], fromDate: NSDate())
+        users.sort(){
+            let leftDate : Date = $0.birthday
+            let rightDate : Date = $1.birthday
+            let left = (Calendar.current as NSCalendar).components([.day, .month, .year], from: leftDate)
+            let right = (Calendar.current as NSCalendar).components([.day, .month, .year], from: rightDate)
+            let current = (Calendar.current as NSCalendar).components([.day, .month, .year], from: Date())
             
-            let lday = left.day
-            var lmonth = left.month
-            let rday = right.day
-            var rmonth = right.month
+            //Its save to unwrap the information here
+            let lday = left.day!
+            var lmonth = left.month!
+            let rday = right.day!
+            var rmonth = right.month!
+            
             //Shift dates depending on current date
-            if(lmonth < current.month){
+            if(lmonth < current.month!){
                 lmonth += 12
             } else if(lmonth == current.month){
-                if(lday < current.day){
+                if(lday < current.day!){
                     lmonth += 12
                 }
             }
             
-            if(rmonth < current.month){
+            if(rmonth < current.month!){
                 rmonth += 12
             } else if(rmonth == current.month){
-                if(rday < current.day){
+                if(rday < current.day!){
                     rmonth += 12
                 }
             }

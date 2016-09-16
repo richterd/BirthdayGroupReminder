@@ -259,9 +259,11 @@
 					88E6A9FE196FFAC800B32450 = {
 						CreatedOnToolsVersion = 6.0;
 						DevelopmentTeam = VL4XY7226S;
+						LastSwiftMigration = 0800;
 					};
 					88E6AA10196FFAC800B32450 = {
 						CreatedOnToolsVersion = 6.0;
+						LastSwiftMigration = 0800;
 						TestTargetID = 88E6A9FE196FFAC800B32450;
 					};
 				};
@@ -501,6 +503,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "BirthdayGroupReminder/BirthdayGroupReminder-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -525,6 +528,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "BirthdayGroupReminder/BirthdayGroupReminder-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -532,7 +536,7 @@
 		88E6AA1F196FFAC800B32450 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BirthdayGroupReminder.app/BirthdayGroupReminder";
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -547,14 +551,15 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "DAN.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Birthday!.app/Birthday!";
 			};
 			name = Debug;
 		};
 		88E6AA20196FFAC800B32450 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BirthdayGroupReminder.app/BirthdayGroupReminder";
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -565,7 +570,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "DAN.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Birthday!.app/Birthday!";
 			};
 			name = Release;
 		};

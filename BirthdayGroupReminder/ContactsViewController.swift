@@ -12,7 +12,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
 
     @IBOutlet var tableView : UITableView?
 
-    var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
     var users : [RHPerson] = []
     
   
@@ -20,7 +20,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         self.updateTableView()
         // Do any additional setup after loading the view.
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.updateTableView), name: "selectedGroupsChanged", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateTableView), name: NSNotification.Name(rawValue: "selectedGroupsChanged"), object: nil)
     }
 
 
@@ -29,63 +29,62 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         // Dispose of any resources that can be recreated.
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.users.count
     }
     
     func updateTableView(){
         let addressBook : RHAddressBook = self.appDelegate.addressBook
         let myAddressBook : BGRAdressBook = BGRAdressBook()
-        addressBook.requestAuthorizationWithCompletion({
-            (granted: Bool, error: NSError!) -> () in
+        addressBook.requestAuthorization(completion: { (granted: Bool, error: Error?) -> () in
             if granted {
                 self.users = myAddressBook.usersSortedByBirthday(self.appDelegate.selectedGroups)
                 if(self.users.count == 0){
                     let alert = UIAlertView(title: "No Users", message: "Please select at least one group in the 'more' tab.", delegate: self, cancelButtonTitle: "OK")
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async(execute: {
                             alert.show()
                         })
                 }
                 //Remove unwanted entries from selected groups
                 var newSelectedGroups : [ABRecordID] = []
                 for group : ABRecordID in self.appDelegate.selectedGroups{
-                    let foundGroup = addressBook.groupForABRecordID(group)
+                    let foundGroup = addressBook.group(forABRecordID: group)
                     if((foundGroup) != nil){
                         newSelectedGroups.append(group)
                     }
                 }
                 self.appDelegate.selectedGroups = newSelectedGroups
             }
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 //Reload tableView on the main thread
                 self.tableView!.reloadData()
                 })
             })
     }
     
-    func alertView(alertView: UIAlertView!,
+    func alertView(_ alertView: UIAlertView!,
         clickedButtonAtIndex buttonIndex: Int){
             self.tabBarController!.selectedIndex = 1
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("contactCell") as! ContactTableViewCell
-        let user = users[indexPath.row]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell") as! ContactTableViewCell
+        let user = users[(indexPath as NSIndexPath).row]
         cell.name!.text = user.name
-        cell.pic!.image = user.imageWithFormat(kABPersonImageFormatThumbnail)
+        cell.pic!.image = user.image(with: kABPersonImageFormatThumbnail)
         if(cell.pic!.image == nil){
             cell.pic!.image = UIImage(named: "default.jpg")
         }
         cell.pic!.layer.masksToBounds = true
         cell.pic!.layer.cornerRadius = 25
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
-        cell.birthday!.text = dateFormatter.stringFromDate(user.birthday)
+        cell.birthday!.text = dateFormatter.string(from: user.birthday)
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 

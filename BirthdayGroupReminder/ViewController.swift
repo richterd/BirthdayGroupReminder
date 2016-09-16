@@ -12,24 +12,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet var tableView : UITableView?
     
-    var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
     var groups : [RHGroup] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         let addressBook : RHAddressBook = self.appDelegate.addressBook
-        addressBook.requestAuthorizationWithCompletion({
-            (granted: Bool, error: NSError!) -> () in
+        addressBook.requestAuthorization(completion: { (granted: Bool, error: Error?) -> Void in
             if granted {
                 self.appDelegate.addressBook = addressBook
-                let addressBookGroups = addressBook.groups
-                for object : AnyObject in addressBookGroups{
-                    let addressBookGroup = object as! RHGroup
+                let addressBookGroups = addressBook.groups as! [RHGroup]
+                for addressBookGroup in addressBookGroups{
                     self.groups.append(addressBookGroup)
                 }
             }
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 //Reload tableView on the main thread
                 self.tableView!.reloadData()
             })
@@ -41,19 +39,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Dispose of any resources that can be recreated.
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.groups.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("groupCell") as! GroupTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell") as! GroupTableViewCell
         
         //cell.isSelected = contains(appDelegate.selectedGroups, groups[indexPath.row].recordID)
-        cell.isSelectedCell = appDelegate.selectedGroups.contains(groups[indexPath.row].recordID)
+        cell.isSelectedCell = appDelegate.selectedGroups.contains(groups[(indexPath as NSIndexPath).row].recordID)
         
-        cell.groupName!.text = groups[indexPath.row].name
-        cell.recordID = groups[indexPath.row].recordID
-        let count = groups[indexPath.row].count
+        cell.groupName!.text = groups[(indexPath as NSIndexPath).row].name
+        cell.recordID = groups[(indexPath as NSIndexPath).row].recordID
+        let count = groups[(indexPath as NSIndexPath).row].count
         var countLabelText = String(count)
         if(count == 1){
             countLabelText += " person"
@@ -64,12 +62,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell : GroupTableViewCell = self.tableView!.cellForRowAtIndexPath(indexPath) as! GroupTableViewCell
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell : GroupTableViewCell = self.tableView!.cellForRow(at: indexPath) as! GroupTableViewCell
         if cell.isSelectedCell{
             cell.isSelectedCell = false
             if appDelegate.selectedGroups.contains(cell.recordID){
-                appDelegate.selectedGroups.removeAtIndex(appDelegate.selectedGroups.indexOf(cell.recordID)!)
+                appDelegate.selectedGroups.remove(at: appDelegate.selectedGroups.index(of: cell.recordID)!)
             }
         }else{
             cell.isSelectedCell = true
@@ -77,8 +75,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 appDelegate.selectedGroups.append(cell.recordID)
             }
         }
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        NSNotificationCenter.defaultCenter().postNotificationName("selectedGroupsChanged", object: self)
+        tableView.deselectRow(at: indexPath, animated: true)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "selectedGroupsChanged"), object: self)
     }
 }
 
